@@ -3,7 +3,6 @@
     <input type="text" maxlength="255" placeholder="Név" v-model="send.username">
     <input type="password" maxlength="255" placeholder="Jelszó" v-model="password">
     <button @click="chooseTarget()">Start</button>
-
     <teleport to="body">
       <div v-if="modalOpen" class="modal">
         <p>Rossz jelszó vagy felhaználónév</p>
@@ -24,9 +23,10 @@ export default {
       send: {
         username: "",
         opt: "GameAdmin",
+        gamecode: ''
       },
       login: null,
-      modalOpen: false
+      modalOpen: false,
     };
   },
   methods: {
@@ -42,7 +42,7 @@ export default {
       })
         .then((response) => {
           this.login = response.data["login"];
-
+          this.send.gamecode = response.data["gamecode"]
           this.sendData();
         })
     },

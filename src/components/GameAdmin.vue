@@ -1,6 +1,6 @@
 <template>
     <div>
-        <p>Oszd meg a kóddot a barátaiddal:</p>
+        <p>Oszd meg a kóddot a barátaiddal: {{gamecode}}</p>
         <h1>GameAdmin</h1>
         <ul>
             <li v-for="player in players" :key="player.name">
@@ -15,13 +15,10 @@
     
     export default {
         name: 'GameAdmin',
+        props: ['gamecode'],
         data() {
              return {
-                players: [
-                    { name: 'Bali'},
-                    { name: 'Geri'},
-                    { name: 'Atis'}
-                ],
+                players: [],
              }
         },
         methods: {
@@ -31,18 +28,19 @@
                         method: "post",
                         url: "http://localhost:8080/createuser.php",
                         data: {
-                            order: 'players'
+                            order: this.gamecode
                         },
                     })
                     .then((response) => {
-                        console.log(response.data);
+                        this.players = {name: response.data};
+                        console.log(this.players);
                     })
-                }, 0)
+                }, 1000)
             }
         },
-        ceated () {
+        created () {
             this.refreshPlayers();
-        }
+        },
     }
 </script>
 

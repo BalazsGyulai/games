@@ -1,6 +1,6 @@
 <template>
   <div id="okros">
-    <component v-on:choosedTarget="chooseTarget($event)" :is="activeTab" />
+    <component :gamecode="user.gamecode" v-on:choosedTarget="chooseTarget($event)" :is="activeTab" />
   </div>
 
 </template>
@@ -26,7 +26,8 @@ export default {
       activeTab: 'Choose',
       user: {
         username: '',
-      }
+        gamecode: ''
+      },
     };
   },
   methods: {
@@ -34,9 +35,10 @@ export default {
       this.activeTab = value.opt;
       if(value.username){
         this.user.username = value.username;
+        this.user.gamecode = value.gamecode;
       }
     }
-  }
+  },
 };
 </script>
 
