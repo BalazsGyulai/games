@@ -1,6 +1,6 @@
 <template>
   <div id="okros">
-    <component :gamecode="user.gamecode" v-on:choosedTarget="chooseTarget($event)" :is="activeTab" />
+    <component :username="user.username" :gamecode="user.gamecode" v-on:choosedTarget="chooseTarget($event);" @startGame="startGame($event);" :is="activeTab" />
   </div>
 
 </template>
@@ -11,6 +11,7 @@ import SetAdmin from '../components/SetAdmin.vue'
 import SetPlayer from '../components/SetPlayer.vue'
 import GamePlayer from '../components/GamePlayer.vue'
 import GameAdmin from '../components/GameAdmin.vue'
+import GameAdminStart from '../components/GameAdminStart.vue'
 
 export default {
   name: "Okros",
@@ -19,7 +20,8 @@ export default {
     SetAdmin,
     SetPlayer,
     GamePlayer,
-    GameAdmin
+    GameAdmin,
+    GameAdminStart
   },
   data() {
     return {
@@ -37,6 +39,9 @@ export default {
         this.user.username = value.username;
         this.user.gamecode = value.gamecode;
       }
+    },
+    startGame(value){
+      this.activeTab = value
     }
   },
 };
