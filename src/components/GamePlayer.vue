@@ -44,7 +44,7 @@ export default {
   mounted: function () {
     axios({
       method: "post",
-      url: "http://localhost:8080/createuser.php",
+      url: "api/createuser.php",
       data: {
         getcurrentplayer: this.username,
       },
@@ -57,7 +57,7 @@ export default {
       setInterval(() => {
         axios({
           method: "post",
-          url: "http://localhost:8080/createuser.php",
+          url: "api/createuser.php",
           data: {
             getcurrentplayer: this.username,
           },
@@ -103,17 +103,17 @@ h1 {
   border-radius: 30px;
 }
 
-.box p{
-    box-sizing: border-box;
-    padding: 20.8px 30px;
-    text-align: center;
-    font-size: 1.2em;
+.box p {
+  box-sizing: border-box;
+  padding: 20.8px 30px;
+  text-align: center;
+  font-size: 1.2em;
 }
 
-.sum{
-    font-weight: bold;
-    color: #fff;
-    background: #00E0FF;
-    border-radius: 0 0 30px 30px;
+.sum {
+  font-weight: bold;
+  color: #fff;
+  background: #00e0ff;
+  border-radius: 0 0 30px 30px;
 }
 </style>

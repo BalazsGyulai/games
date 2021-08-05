@@ -1,6 +1,14 @@
 <template>
   <div>
-    <button @click="newGame()">Új játék</button>
+    <div id="btn" @click="showMenu()">
+      <img src="../assets/menu.svg">
+    </div>  
+    <transition enter-active-class="animate__animated animate__fadeInLeft" leave-active-class="animate__animated animate__fadeOutLeft">
+    <div class="menu" v-if="menuOpt">
+      <button @click="newGame()">Új játék</button>
+    </div>
+    </transition>
+    <div class="box">
     <div id="users">
       <div class="user" v-for="player in players" :key="player">
         <h1 class="username">{{player.username}}</h1>
@@ -17,6 +25,7 @@
         <p class="sum"></p>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
@@ -28,6 +37,7 @@ export default {
   props: ["gamecode"],
   data() {
     return {
+      menuOpt: false,
       values: [],
       players: [],
     };
@@ -35,7 +45,7 @@ export default {
   mounted: function () {
     axios({
       method: "post",
-      url: "http://localhost:8080/createuser.php",
+      url: "api/createuser.php",
       data: {
         showall: this.gamecode,
       },
@@ -44,10 +54,18 @@ export default {
     });
   },
   methods: {
+    showMenu() {
+      if(!this.menuOpt){
+        this.menuOpt = true;
+      } else{
+        this.menuOpt = false;
+      }
+    },
+
     updateData(name, where, value) {
       axios({
         method: "post",
-        url: "http://localhost:8080/createuser.php",
+        url: "api/createuser.php",
         data: {
           name: name,
           column: where,
@@ -62,7 +80,7 @@ export default {
 
         axios({
           method: "post",
-          url: "http://localhost:8080/createuser.php",
+          url: "api/createuser.php",
           data: {
             getnumbers: this.gamecode,
           },
@@ -83,13 +101,12 @@ export default {
     newGame() {
       axios({
         method: "post",
-        url: "http://localhost:8080/createuser.php",
+        url: "api/createuser.php",
         data: {
           restart: this.gamecode,
         },
-      })
-      .then((resp) => {
-          this.players = resp.data;
+      }).then((resp) => {
+        this.players = resp.data;
       });
     },
   },
@@ -100,31 +117,99 @@ export default {
 </script>
 
 <style scoped>
-#users{
-    width: 100%;
-    overflow-x: scroll;
-    display: flex;
+
+.box {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
-.user{
-    margin: 0 10px;
-    width: 320px;
+#btn{
+  margin: 5px;
+  position: relative;
+  box-sizing: border-box;
+  width: 35px;
+  height: 35px;
+  border: 3px solid #000000;
+  border-radius: 9px;
+  cursor: pointer;
 }
 
-.user h1{
-    text-align: center;
-    padding: 5px 0;
+#btn img{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.user input{
-    width: 100%;
-    height: 30px;
-    border: 1px solid #bcbcbc;
+.menu{
+  box-sizing: border-box;
+  padding: 5px;
+  position: absolute;
+  width: 100%;
+  height: auto;
+  max-width: 200px;
+  background: #fff;
+  border-top: 1px solid #000;
+  border-right: 1px solid #000;
+  border-bottom: 1px solid #000;
 }
 
-.sum{
-    text-align: center;
-    padding: 10px 0;
+.menu button {
+  width: 100%;
+  height: 40px;
+  border: none;
+  border-radius: 9px;
+  background: #00e0ff;
+  font-size: 1em;
+  font-weight: bold;
+  color: #fff;
 }
 
+#users {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 320px);
+  grid-gap: 15px;
+}
+
+.user {
+  margin: 0 10px;
+  width: 320px;
+  border-radius: 30px;
+  box-shadow: 4px 4px 8px #cacaca;
+}
+
+.user h1 {
+  text-align: center;
+  padding: 20px 0;
+  background: #00ffb2;
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.2em;
+  color: #fff;
+  border-radius: 30px 30px 0 0;
+}
+
+.user input {
+  box-sizing: border-box;
+  width: 100%;
+  height: 30px;
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid #bcbcbc;
+  padding: 5px 10px;
+}
+
+.sum {
+  box-sizing: border-box;
+  text-align: center;
+  padding: 10px 0;
+  font-weight: bold;
+  color: #fff;
+  background: #00e0ff;
+  border-radius: 0 0 30px 30px;
+  padding: 15px 0;
+  font-size: 1.2em;
+}
 </style>

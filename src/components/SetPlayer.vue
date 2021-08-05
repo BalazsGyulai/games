@@ -9,15 +9,25 @@
     </div>
 
     <teleport to="body">
-      <transition name="fade">
+      <transition enter-active-class="animate__animated animate__fadeInLeft" leave-active-class="animate__animated animate__fadeOutLeft">
         <div v-if="modalOpen" class="modal">
           <div id="error">
             <img src="../assets/error.svg">
           </div>
-          <p>Rossz jelszó vagy felhaználónév</p>
+          <p>Rossz jelszó vagy felhaználónév!</p>
+        </div>
+      </transition>
+
+      <transition enter-active-class="animate__animated animate__fadeInLeft" leave-active-class="animate__animated animate__fadeOutLeft">
+        <div class="empty" v-if="emptyOpt">
+          <div class="img">
+            <img src="../assets/warning.svg">
+          </div>
+          <p>Kérlek tölts ki minden mezőt!</p>
         </div>
       </transition>
     </teleport>
+
   </div>
 </template>
 
@@ -36,24 +46,33 @@ export default {
       gamecode: "",
       login: null,
       modalOpen: false,
+      emptyOpt: false,
     };
   },
   methods: {
     chooseTarget() {
-      axios({
-        method: "post",
-        url: "../api/createuser.php",
-        data: {
-          username: this.send.username,
-          pwd: this.password,
-          opt: this.send.opt,
-          gamecode: this.gamecode,
-        },
-      }).then((response) => {
-        this.login = response.data["login"];
+      if (this.password == "" || this.send.username == "") {
+        this.emptyOpt = true;
 
-        this.sendData();
-      });
+        setTimeout(() => {
+          this.emptyOpt = false;
+        }, 3000)
+      } else {
+        axios({
+          method: "post",
+          url: "api/createuser.php",
+          data: {
+            username: this.send.username,
+            pwd: this.password,
+            opt: this.send.opt,
+            gamecode: this.gamecode,
+          },
+        }).then((response) => {
+          this.login = response.data["login"];
+
+          this.sendData();
+        });
+      }
     },
 
     sendData() {
@@ -72,6 +91,7 @@ export default {
 </script>
 
 <style scoped>
+
 .game {
   position: absolute;
   top: 50%;
@@ -129,12 +149,12 @@ button:hover {
   transition: 0.3s;
 }
 
-.modal {
+.modal,
+.empty {
   box-sizing: border-box;
   position: absolute;
   top: 10px;
-  left: calc(100% - 10px);
-  transform: translate(-100%, 0);
+  left: 10px;
   max-width: 320px;
   width: 320px;
   height: 100px;
@@ -143,39 +163,33 @@ button:hover {
   border-radius: 5px;
 }
 
-#error {
+.empty{
+  background: #f99e1e;
+}
+
+#error,
+.img {
   position: relative;
   padding: 0 10px;
   width: 30px;
   height: 100px;
 }
 
-#error img {
+#error img,
+.img img {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-.modal p {
+.modal p ,
+.empty p{
   position: absolute;
   top: 50%;
   left: 50px;
   transform: translateY(-50%);
   color: #fff;
   padding: 0 10px;
-}
-
-.fade-enter-active {
-  transition: all 0.3s ease;
-}
-
-.fade-leave-active {
-  transition: all 0.3s ease;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 </style>
