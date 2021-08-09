@@ -41,7 +41,7 @@ export default {
       password: "",
       send: {
         username: "",
-        opt: "GamePlayer",
+        opt: "OkrosGamePlayer",
       },
       gamecode: "",
       login: null,
