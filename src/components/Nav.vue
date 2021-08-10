@@ -15,9 +15,15 @@
       </div>
     </div>
 
-    <transition name="fade" mode="out-in">
+<!--     <transition name="fade" mode="out-in">
       <router-view v-if="!optmenu"></router-view>
-    </transition>
+    </transition> -->
+
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component v-if="!optmenu" :is="Component" />
+      </transition>
+    </router-view>
   </div>
 </template>
 
@@ -39,7 +45,6 @@ export default {
 </script>
 
 <style scoped>
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

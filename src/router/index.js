@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from "vue-router";
 import Okros from "../views/Okros.vue";
 import Dobokockas from "../views/Dobokockas.vue";
 
-
 const routes = [
   {
     path: "/okros",

@@ -12,16 +12,16 @@
     <div id="users">
       <div class="user" v-for="player in players" :key="player">
         <h1 class="username">{{player.username}}</h1>
-        <input type="number" class="number" @blur="updateData(player.playerID, 'one', player.one)" v-on:input="player.one = $event.target.value" v-bind:value="player.one">
-        <input type="number" class="number" @blur="updateData(player.playerID, 'two', player.two)" v-on:input="player.two = $event.target.value" v-bind:value="player.two">
-        <input type="number" class="number" @blur="updateData(player.playerID, 'three', player.three)" v-on:input="player.three = $event.target.value" v-bind:value="player.three">
-        <input type="number" class="number" @blur="updateData(player.playerID, 'four', player.four)" v-on:input="player.four = $event.target.value" v-bind:value="player.four">
-        <input type="number" class="number" @blur="updateData(player.playerID, 'five', player.five)" v-on:input="player.five = $event.target.value" v-bind:value="player.five">
-        <input type="number" class="number" @blur="updateData(player.playerID, 'six', player.six)" v-on:input="player.six = $event.target.value" v-bind:value="player.six">
-        <input type="number" class="number" @blur="updateData(player.playerID, 'seven', player.seven)" v-on:input="player.seven = $event.target.value" v-bind:value="player.seven">
-        <input type="number" class="number" @blur="updateData(player.playerID, 'eight', player.eight)" v-on:input="player.eight = $event.target.value" v-bind:value="player.eight">
-        <input type="number" class="number" @blur="updateData(player.playerID, 'nine', player.nine)" v-on:input="player.nine = $event.target.value" v-bind:value="player.nine">
-        <input type="number" class="number" @blur="updateData(player.playerID, 'ten', player.ten)" v-on:input="player.ten = $event.target.value" v-bind:value="player.ten">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'one', player.one)" v-on:input="player.one = $event.target.value" :placeholder="player.one">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'two', player.two)" v-on:input="player.two = $event.target.value" :placeholder="player.two">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'three', player.three)" v-on:input="player.three = $event.target.value" :placeholder="player.three">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'four', player.four)" v-on:input="player.four = $event.target.value" :placeholder="player.four">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'five', player.five)" v-on:input="player.five = $event.target.value" :placeholder="player.five">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'six', player.six)" v-on:input="player.six = $event.target.value" :placeholder="player.six">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'seven', player.seven)" v-on:input="player.seven = $event.target.value" :placeholder="player.seven">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'eight', player.eight)" v-on:input="player.eight = $event.target.value" :placeholder="player.eight">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'nine', player.nine)" v-on:input="player.nine = $event.target.value" :placeholder="player.nine">
+        <input type="number" class="number" @click="$event.target.value = ''" @blur="updateData(player.playerID, 'ten', player.ten)" v-on:input="player.ten = $event.target.value" :placeholder="player.ten">
         <p class="sum"></p>
       </div>
     </div>
@@ -38,6 +38,7 @@ export default {
   data() {
     return {
       menuOpt: false,
+      PlayerPlace: [],
       values: [],
       players: [],
     };
@@ -94,7 +95,9 @@ export default {
             sumValue += this.values[i][x];
           }
           sum[i].innerHTML = sumValue;
+          sum[i].value = sumValue;
         }
+
       }, 250);
     },
 
@@ -117,12 +120,6 @@ export default {
 </script>
 
 <style scoped>
-
-.box {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
 
 #btn{
   margin: 5px;
